@@ -1,0 +1,18 @@
+from wdcloud import WordCloud
+from PIL import Image
+import numpy as np
+
+text = ""
+
+with open("KakaoTalk.txt", "r", encoding="utf-8") as f:
+    lines = f.readlines()
+    for line in lines[5:]:
+        if '] [' in line:
+            text += line.split('] ')[2].replace('ㅋ', '').replace('ㅠ', '').replace('ㅜ', '').replace('이모티콘\n', '').replace('사진', '')
+
+font_path = 'C:/Windows/Fonts/NanumBarunGothic.ttf'
+
+mask = np.array(Image.open('cloud.png'))
+wc = WordCloud(font_path=font_path, background_color="white", mask=mask)
+wc.generate(text)
+wc.to_file("result.png")
